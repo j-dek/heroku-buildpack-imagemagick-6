@@ -7,10 +7,6 @@ indent() {
 echo "-----> Updating ImageMagick 6 Policy"
 
 BUILD_DIR=$1
-echo "pwd: ${pwd}"
-echo "build: $BUILD_DIR"
-
-exit 1
 
 read -r -d '' IM6POLICY <<'EOF'
 <policymap>
@@ -30,4 +26,4 @@ read -r -d '' IM6POLICY <<'EOF'
 </policymap>
 EOF
 
-echo "$IM6POLICY" > /etc/ImageMagick-6/policy.xml
+echo "$IM6POLICY" > $BUILD_DIR/etc/ImageMagick-6/policy.xml
