@@ -1,0 +1,1 @@
+# heroku-buildpack-imagemagick-6
