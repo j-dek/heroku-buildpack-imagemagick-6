@@ -1,0 +1,25 @@
+#!/bin/bash
+
+indent() {
+  sed -u 's/^/       /'
+}
+
+echo "-----> Updating ImageMagick 6 Policy"
+
+echo <<EOF
+<policymap>
+  <policy domain="resource" name="memory" value="2GiB"/>
+  <policy domain="resource" name="map" value="1GiB"/>
+  <policy domain="resource" name="width" value="20KP"/>
+  <policy domain="resource" name="height" value="20KP"/>
+  <policy domain="resource" name="area" value="256MB"/>
+  <policy domain="resource" name="disk" value="1GiB"/>
+  <policy domain="resource" name="thread" value="4"/>
+  <policy domain="resource" name="throttle" value="0"/>
+  <policy domain="delegate" rights="none" pattern="URL" />
+  <policy domain="delegate" rights="none" pattern="HTTPS" />
+  <policy domain="delegate" rights="none" pattern="HTTP" />
+  <policy domain="path" rights="none" pattern="@*"/>
+  <policy domain="cache" name="shared-secret" value="passphrase" stealth="true"/>
+</policymap>
+EOF > /etc/ImageMagick-6/policy.xml

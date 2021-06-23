@@ -1,0 +1,4 @@
+#!/bin/bash
+
+echo "ImageMagick6Policy"
+exit 0
