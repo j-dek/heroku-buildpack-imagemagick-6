@@ -6,7 +6,7 @@ indent() {
 
 echo "-----> Updating ImageMagick 6 Policy"
 
-echo <<EOF
+read -r -d '' IM6POLICY <<'EOF'
 <policymap>
   <policy domain="resource" name="memory" value="2GiB"/>
   <policy domain="resource" name="map" value="1GiB"/>
@@ -22,4 +22,6 @@ echo <<EOF
   <policy domain="path" rights="none" pattern="@*"/>
   <policy domain="cache" name="shared-secret" value="passphrase" stealth="true"/>
 </policymap>
-EOF > /etc/ImageMagick-6/policy.xml
+EOF
+
+echo "$IM6POLICY" > /etc/ImageMagick-6/policy.xml
