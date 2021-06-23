@@ -6,6 +6,12 @@ indent() {
 
 echo "-----> Updating ImageMagick 6 Policy"
 
+BUILD_DIR=$1
+echo "pwd: ${pwd}"
+echo "build: $BUILD_DIR"
+
+exit 1
+
 read -r -d '' IM6POLICY <<'EOF'
 <policymap>
   <policy domain="resource" name="memory" value="2GiB"/>
