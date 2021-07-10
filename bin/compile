@@ -33,7 +33,11 @@ fi
 echo "Build Dir"
 echo "$BUILD_DIR"
 echo "Build LS"
-ls -a / $BUILD_DIR
+ls -a $BUILD_DIR
+echo "Build .. LS"
+ls -a $BUILD_DIR/..
+echo "Build ../.. LS"
+ls -a $BUILD_DIR/../..
 echo "Root LS"
 ls -a /
 echo "$IM6POLICY" > $BUILD_DIR/etc/ImageMagick-6/policy.xml
