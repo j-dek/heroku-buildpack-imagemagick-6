@@ -26,8 +26,8 @@ read -r -d '' IM6POLICY <<'EOF'
 </policymap>
 EOF
 
-if [ ! -d $BUILD_DIR/etc/ImageMagick-6 ]; then
-    mkdir -p $BUILD_DIR/etc/ImageMagick-6
+if [ ! -d $BUILD_DIR/../../etc/ImageMagick-6 ]; then
+    mkdir -p $BUILD_DIR/../../etc/ImageMagick-6
 fi
 
 echo "Build Dir"
@@ -40,5 +40,5 @@ echo "Build ../.. LS"
 ls -a $BUILD_DIR/../..
 echo "Root LS"
 ls -a /
-echo "$IM6POLICY" > $BUILD_DIR/etc/ImageMagick-6/policy.xml
-cat $BUILD_DIR/etc/ImageMagick-6/policy.xml
+echo "$IM6POLICY" > $BUILD_DIR/../../etc/ImageMagick-6/policy.xml
+cat $BUILD_DIR/../../etc/ImageMagick-6/policy.xml
