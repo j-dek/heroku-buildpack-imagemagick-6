@@ -28,9 +28,9 @@ if [ ! -f $IMAGE_MAGICK_CACHE_FILE ]; then
   # Install ImageMagick
   wget https://github.com/ImageMagick/ImageMagick6/archive/refs/tags/${IMAGE_MAGICK_VERSION}.tar.gz -P $BUILD_DIR -O $BUILD_DIR/imagemagick.tar.gz | indent
   tar -xvf $BUILD_DIR/imagemagick.tar.gz --directory $BUILD_DIR | indent
-  cd $BUILD_DIR/ImageMagick-${IMAGE_MAGICK_VERSION}
+  cd $BUILD_DIR/ImageMagick6-${IMAGE_MAGICK_VERSION}
 
-  if [ ! -d $BUILD_DIR/ImageMagick-${IMAGE_MAGICK_VERSION} ]; then
+  if [ ! -d $BUILD_DIR/ImageMagick6-${IMAGE_MAGICK_VERSION} ]; then
     echo "Error: Unable to download and extract ImageMagick" | indent
     ls $BUILD_DIR | indent
     exit 1;
@@ -42,7 +42,7 @@ if [ ! -f $IMAGE_MAGICK_CACHE_FILE ]; then
   make && make install
   # ldconfig /usr/local/lib
   cd ..
-  rm -rf ImageMagick-${IMAGE_MAGICK_VERSION}
+  rm -rf ImageMagick6-${IMAGE_MAGICK_VERSION}
 
   if [ ! -d $IMAGE_MAGICK_INSTALL_DIR ]; then
     echo "Error: Unable to build ImageMagick" | indent
