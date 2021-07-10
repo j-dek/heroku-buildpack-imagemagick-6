@@ -32,4 +32,4 @@ fi
 
 echo "$IM6POLICY" > $BUILD_DIR/../etc/ImageMagick-6/policy.xml
 echo "$BUILD_DIR/../etc/ImageMagick-6/policy.xml"
-echo "${cat $BUILD_DIR/../etc/ImageMagick-6/policy.xml }"
+cat $BUILD_DIR/../etc/ImageMagick-6/policy.xml
