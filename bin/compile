@@ -4,69 +4,25 @@ indent() {
   sed -u 's/^/       /'
 }
 
-echo "-----> Installing ImageMagick 6"
+echo "-----> Copying ImageMagick Configuration Files"
 
 BUILD_DIR=$1
 CACHE_DIR=$2
 
-IMAGE_MAGICK_VERSION=6.9.7-4
+IMAGE_MAGICK_VERSION=6
 
 VENDOR_DIR="$BUILD_DIR/vendor"
-IMAGE_MAGICK_INSTALL_DIR="$VENDOR_DIR/imagemagick"
-IMAGE_MAGICK_CACHE_FILE="$CACHE_DIR/imagemagick-$IMAGE_MAGICK_VERSION.tar.gz"
-
-if [ ! -d $CACHE_DIR ]; then
-  mkdir -p $CACHE_DIR
-fi
+IMAGE_MAGICK_CONFIG_DIR="$VENDOR_DIR/ImageMagick-$IMAGE_MAGICK_VERSION"
 
 if [ ! -d $VENDOR_DIR ]; then
   mkdir -p $VENDOR_DIR
 fi
 
-if [ ! -f $IMAGE_MAGICK_CACHE_FILE ]; then
-  echo "-----> Building ImageMagick"
-  # Install ImageMagick
-  wget https://github.com/ImageMagick/ImageMagick6/archive/refs/tags/${IMAGE_MAGICK_VERSION}.tar.gz -P $BUILD_DIR -O $BUILD_DIR/imagemagick.tar.gz | indent
-  tar -xvf $BUILD_DIR/imagemagick.tar.gz --directory $BUILD_DIR | indent
-  cd $BUILD_DIR/ImageMagick6-${IMAGE_MAGICK_VERSION}
+# Copy configuration delegate file
+cp -rf /etc/ImageMagick-$IMAGE_MAGICK_VERSION $IMAGE_MAGICK_CONFIG_DIR
 
-  if [ ! -d $BUILD_DIR/ImageMagick6-${IMAGE_MAGICK_VERSION} ]; then
-    echo "Error: Unable to download and extract ImageMagick" | indent
-    ls $BUILD_DIR | indent
-    exit 1;
-  fi
-
-  export CPPFLAGS="-I$IMAGE_MAGICK_INSTALL_DIR/include"
-  export LDFLAGS="-L$IMAGE_MAGICK_INSTALL_DIR/lib"
-  ./configure --without-magick-plus-plus --disable-docs --prefix=$IMAGE_MAGICK_INSTALL_DIR
-  make && make install
-  # ldconfig /usr/local/lib
-  cd ..
-  rm -rf ImageMagick6-${IMAGE_MAGICK_VERSION}
-
-  if [ ! -d $IMAGE_MAGICK_INSTALL_DIR ]; then
-    echo "Error: Unable to build ImageMagick" | indent
-    ls $VENDOR_DIR | indent
-    exit 1;
-  fi
-
-  # Copy delegate file
-  # cp $IMAGE_MAGICK_INSTALL_DIR/etc/ImageMagick-6/delegates.xml $IMAGE_MAGICK_INSTALL_DIR/delegates.xml
-
-  # cache for future deploys
-  echo "-----> Caching ImageMagick installation"
-  cd $VENDOR_DIR
-  REL_INSTALL_DIR="imagemagick"
-  tar czf $REL_INSTALL_DIR.tar.gz $REL_INSTALL_DIR
-  mv $REL_INSTALL_DIR.tar.gz $IMAGE_MAGICK_CACHE_FILE
-else
-  # cache exists, extract it
-  echo "-----> Extracting ImageMagick $IMAGE_MAGICK_CACHE_FILE => $VENDOR_DIR"
-  mkdir -p $VENDOR_DIR
-  tar xzf $IMAGE_MAGICK_CACHE_FILE -C $VENDOR_DIR
-fi
-
-# Update Policy even if cached
+# Update Policy
+echo "-----> Updating ImageMagick policy.xml"
 read -r -d '' IM6POLICY <<'EOF'
 <policymap>
   <policy domain="resource" name="memory" value="2GiB"/>
@@ -85,18 +41,11 @@ read -r -d '' IM6POLICY <<'EOF'
 </policymap>
 EOF
 
-if [ ! -d $IMAGE_MAGICK_INSTALL_DIR/etc/ImageMagick-6 ]; then
-    mkdir -p $IMAGE_MAGICK_INSTALL_DIR/etc/ImageMagick-6
-fi
-
-echo "$IM6POLICY" > $IMAGE_MAGICK_INSTALL_DIR/etc/ImageMagick-6/policy.xml
+echo "$IM6POLICY" > $IMAGE_MAGICK_CONFIG_DIR/policy.xml
 
 # Update PATH and LD_LIBRARY_PATH
-echo "-----> Updating environment variables"
+echo "-----> Updating ImageMagick environment variables"
 PROFILE_PATH="$BUILD_DIR/.profile.d/imagemagick.sh"
-ACTUAL_INSTALL_PATH="$HOME/vendor/imagemagick"
 mkdir -p $(dirname $PROFILE_PATH)
-echo "export PATH=$ACTUAL_INSTALL_PATH/bin:\$PATH" >> $PROFILE_PATH
-echo "export LD_LIBRARY_PATH=$ACTUAL_INSTALL_PATH/lib:\$LD_LIBRARY_PATH:/usr/local/lib" >> $PROFILE_PATH
-echo "export MAGICK_CONFIGURE_PATH=$ACTUAL_INSTALL_PATH/ImageMagick-6" >> $PROFILE_PATH
+echo "export MAGICK_CONFIGURE_PATH=$IMAGE_MAGICK_CONFIG_DIR" >> $PROFILE_PATH
 echo "-----> Done updating environment variables. All set for ImageMagick."
