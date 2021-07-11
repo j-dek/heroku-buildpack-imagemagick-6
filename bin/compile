@@ -18,12 +18,13 @@ if [ ! -d $VENDOR_DIR ]; then
   mkdir -p $VENDOR_DIR
 fi
 
-# Copy configuration delegate file
+# Copy configuration files
+echo "-----> Copying configuration files to: $IMAGE_MAGICK_CONFIG_DIR"
 cp -rf /etc/ImageMagick-$IMAGE_MAGICK_VERSION $IMAGE_MAGICK_CONFIG_DIR
 
 # Update Policy
 echo "-----> Updating ImageMagick policy.xml"
-read -r -d '' IM6POLICY <<'EOF'
+read -r -d '' IMPOLICY <<'EOF'
 <policymap>
   <policy domain="resource" name="memory" value="2GiB"/>
   <policy domain="resource" name="map" value="1GiB"/>
@@ -41,11 +42,11 @@ read -r -d '' IM6POLICY <<'EOF'
 </policymap>
 EOF
 
-echo "$IM6POLICY" > $IMAGE_MAGICK_CONFIG_DIR/policy.xml
+echo "$IMPOLICY" > $IMAGE_MAGICK_CONFIG_DIR/policy.xml
 
 # Update PATH and LD_LIBRARY_PATH
-echo "-----> Updating ImageMagick environment variables"
 PROFILE_PATH="$BUILD_DIR/.profile.d/imagemagick.sh"
+echo "-----> Updating ImageMagick environment variables at: $PROFILE_PATH"
 mkdir -p $(dirname $PROFILE_PATH)
 echo "export MAGICK_CONFIGURE_PATH=$IMAGE_MAGICK_CONFIG_DIR" >> $PROFILE_PATH
 echo "-----> Done updating environment variables. All set for ImageMagick."
