@@ -51,7 +51,7 @@ if [ ! -f $IMAGE_MAGICK_CACHE_FILE ]; then
   fi
 
   # Copy delegate file
-  cp $IMAGE_MAGICK_INSTALL_DIR/etc/ImageMagick-6/delegates.xml $IMAGE_MAGICK_INSTALL_DIR/delegates.xml
+  # cp $IMAGE_MAGICK_INSTALL_DIR/etc/ImageMagick-6/delegates.xml $IMAGE_MAGICK_INSTALL_DIR/delegates.xml
 
   # cache for future deploys
   echo "-----> Caching ImageMagick installation"
@@ -98,5 +98,5 @@ ACTUAL_INSTALL_PATH="$HOME/vendor/imagemagick"
 mkdir -p $(dirname $PROFILE_PATH)
 echo "export PATH=$ACTUAL_INSTALL_PATH/bin:\$PATH" >> $PROFILE_PATH
 echo "export LD_LIBRARY_PATH=$ACTUAL_INSTALL_PATH/lib:\$LD_LIBRARY_PATH:/usr/local/lib" >> $PROFILE_PATH
-echo "export MAGICK_CONFIGURE_PATH=$ACTUAL_INSTALL_PATH" >> $PROFILE_PATH
+echo "export MAGICK_CONFIGURE_PATH=$ACTUAL_INSTALL_PATH/ImageMagick-6" >> $PROFILE_PATH
 echo "-----> Done updating environment variables. All set for ImageMagick."
