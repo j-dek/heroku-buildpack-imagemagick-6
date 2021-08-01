@@ -48,5 +48,5 @@ echo "$IMPOLICY" > $IMAGE_MAGICK_CONFIG_DIR/policy.xml
 PROFILE_PATH="$BUILD_DIR/.profile.d/imagemagick.sh"
 echo "-----> Updating ImageMagick environment variables at: $PROFILE_PATH"
 mkdir -p $(dirname $PROFILE_PATH)
-echo "export MAGICK_CONFIGURE_PATH=$IMAGE_MAGICK_CONFIG_DIR" >> $PROFILE_PATH
+echo "export MAGICK_CONFIGURE_PATH=/app/vendor/ImageMagick-$IMAGE_MAGICK_VERSION" >> $PROFILE_PATH
 echo "-----> Done updating environment variables. All set for ImageMagick."
