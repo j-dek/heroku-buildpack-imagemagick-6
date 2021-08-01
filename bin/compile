@@ -25,7 +25,7 @@ cp -rf /etc/ImageMagick-$IMAGE_MAGICK_VERSION $IMAGE_MAGICK_CONFIG_DIR
 # Update Policy
 echo "-----> Updating ImageMagick policy.xml"
 read -r -d '' IMPOLICY <<'EOF'
-<policymap>
+<policymap xmlns="">
   <policy domain="resource" name="memory" value="2GiB"/>
   <policy domain="resource" name="map" value="1GiB"/>
   <policy domain="resource" name="width" value="20KP"/>
@@ -34,11 +34,11 @@ read -r -d '' IMPOLICY <<'EOF'
   <policy domain="resource" name="disk" value="1GiB"/>
   <policy domain="resource" name="thread" value="4"/>
   <policy domain="resource" name="throttle" value="0"/>
-  <policy domain="delegate" rights="none" pattern="URL" />
-  <policy domain="delegate" rights="none" pattern="HTTPS" />
-  <policy domain="delegate" rights="none" pattern="HTTP" />
-  <policy domain="path" rights="none" pattern="@*"/>
-  <policy domain="cache" name="shared-secret" value="passphrase" stealth="true"/>
+  <!-- <policy domain="delegate" rights="none" pattern="URL" /> -->
+  <!-- <policy domain="delegate" rights="none" pattern="HTTPS" /> -->
+  <!-- <policy domain="delegate" rights="none" pattern="HTTP" /> -->
+  <!-- <policy domain="path" rights="none" pattern="@*"/> -->
+  <!-- <policy domain="cache" name="shared-secret" value="passphrase" stealth="true"/> -->
 </policymap>
 EOF
 
