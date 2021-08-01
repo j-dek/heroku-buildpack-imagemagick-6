@@ -19,8 +19,8 @@ if [ ! -d $VENDOR_DIR ]; then
 fi
 
 # Copy configuration files
-# echo "-----> Copying configuration files to: $IMAGE_MAGICK_CONFIG_DIR"
-# cp -rf /etc/ImageMagick-$IMAGE_MAGICK_VERSION $IMAGE_MAGICK_CONFIG_DIR
+echo "-----> Copying configuration files to: $IMAGE_MAGICK_CONFIG_DIR"
+cp -rf /etc/ImageMagick-$IMAGE_MAGICK_VERSION/policy.xml $IMAGE_MAGICK_CONFIG_DIR/policy.xml
 
 # Update Policy
 echo "-----> Updating ImageMagick policy.xml"
